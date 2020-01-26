@@ -1,0 +1,240 @@
+html {
+  padding: 0;
+  margin: 0;
+}
+
+.header {
+  width: 100%;
+  height: 30vh;
+  background: #7381FF;
+}
+
+h1 {
+  font-family: Poppins;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 50px;
+  line-height: 87px;
+  text-align: center;
+  color: #FFFFFF;
+  padding-top: 9vh;
+}
+
+.block1 {
+  width: 100%;
+  background: #F9F9F9;
+  padding: 75px;
+  display: flex;
+}
+
+h2 {
+  font-family: Poppins;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 40px;
+  line-height: 55px;
+  color: #333333;
+}
+
+.description {
+  font-family: Poppins;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 18px;
+  line-height: 29px;
+  color: #333333;
+}
+
+#lineChart {
+  margin-bottom: 10px;
+}
+
+.key .UMC, .key .URC, .key .CC {
+  padding-right: 15px;
+}
+
+.UMC p, .URC p, .CC p {
+  font-family: Poppins;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 24px;
+  color: #333333;
+  display: inline-flex;
+  padding-left: 10px;
+  position: relative;
+  bottom: 3px;
+}
+
+.UMCsquare {
+  width: 18px;
+  height: 18px;
+  background: #7381FF;
+  display: inline-block;
+}
+
+.URCsquare {
+  width: 18px;
+  height: 18px;
+  background: #FF739D;
+  display: inline-block;
+}
+
+.CCsquare {
+  width: 18px;
+  height: 18px;
+  background: #FFAE73;
+  display: inline-block;
+}
+
+.block1 canvas {
+  background-color: #fff;
+  width: 100%;
+}
+
+.key {
+display: inline-block;
+list-style-type: none;
+}
+
+.key li {
+display: inline-block;
+}
+
+li.UMC, li.URC, li.CC {
+  display: inline-block;
+}
+
+.block2 {
+  width: 100%;
+  background: #fff;
+  padding: 75px;
+  display: flex;
+}
+
+.block2 canvas {
+  width: 100%;
+  height: 100%;
+}
+
+#map {
+  width:100%;
+  height: 500px;
+  padding: 0;
+}
+
+.block4 {
+  width: 100%;
+  background: #fff;
+  padding: 75px;
+}
+
+.block4 h2 {
+  font-family: Poppins;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 42px;
+  line-height: 63px;
+  text-align: center;
+  color: #333333;
+}
+
+.block4 #percentchange {
+  font-family: Poppins;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 89px;
+  line-height: 133px;
+  text-align: center;
+  margin-bottom: 0;
+}
+
+.block4 h3 {
+  font-family: Poppins;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 34px;
+  line-height: 51px;
+  text-align: center;
+  color: #333333;
+}
+
+#changeData .CC {
+  color: #FFAE73;
+}
+
+#changeData .URC {
+  color: #FF739D;
+}
+
+#changeData .UMC {
+  color: #7381FF;
+}
+
+h6 {
+    text-transform: uppercase;
+    color: #333;
+    font-size: 0.8rem;
+    font-weight: 700;
+    line-height: 1rem;
+    letter-spacing: 0.03rem;
+    margin-top: 0.5rem;
+    margin-bottom: 0;
+    padding: 0;
+}
+
+.mapboxgl-popup-content {
+    font-size: 0.85rem;
+    border-radius: 4px;
+    box-shadow: 0 3px 5px rgba(0, 0, 0, 0.3);
+    padding: 0px 12px 6px 12px;
+}
+
+
+.block5 {
+  width: 100%;
+  background: #7381FF;
+  padding: 75px;
+}
+
+#FAQ {
+  color: #fff;
+  text-align: center;
+  margin-bottom: 25px;
+}
+
+.block5 .question {
+  color: #fff;
+  font-weight: 700;
+  margin-bottom: 0;
+  font-size: 18px;
+}
+
+.block5 .answer {
+  color: #F9F9F9;
+  font-weight: 400;
+  margin-bottom: 0;
+}
+
+.block5 a {
+  color: #F9F9F9;
+  font-weight: 700;
+}
+
+.footer {
+  width: 100%;
+  background: #333333;
+  text-align: center;
+  padding-top: 2px;
+  padding-bottom: 2px;
+}
+
+.footer a {
+  font-family: Poppins;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 13px;
+  line-height: 18px;
+  text-align: center;
+  color: #fff;
+}

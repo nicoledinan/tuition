@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset='utf-8' />
+  <meta name='viewport' content='width=device-width, initial-scale=1, shrink-to-fit=no'>
+  <title>Rising Tuition Costs</title>
+  <link href='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap.min.css'
+      rel='stylesheet' />
+  <link href='https://cdnjs.cloudflare.com/ajax/libs/mapbox-gl/0.53.1/mapbox-gl.css' rel='stylesheet' />
+  <link href='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v3.1.4/mapbox-gl-geocoder.css'
+      rel='stylesheet' />
+  <link href="https://fonts.googleapis.com/css?family=Poppins:400,700" rel="stylesheet">
+  <link href='css/style.css' rel='stylesheet' />
+
+</head>
+
+<body>
+
+  <div class="container-fluid">
+
+    <div class="row">
+
+      <div class="col-12 header">
+          <h1>Rising tuition costs in Ohio</h1>
+      </div>
+
+      <div class="col-12 block1">
+          <div class="col-md-5">
+              <h2>Rising average tuition costs, 2008 – 2019</h2>
+              <p class="description">Since 2008, Ohio has seen a significant increase in college tution costs. Over this 12 year time period, the average yearly tuition cost for a University Main Campus has increased from $8,137 to $9,801, a 20.4% increase.  A similar trend can be found with University Regional Campuses, where the average tuition and fees charged has increased from $5,004 to $5,951, a 18.9% rise. Community Colleges have seen an even more dramatic increase in yearly tuition costs, jumping from an average of $3,386 to $4,497, a 32.8% difference.</p>
+          </div>
+          <div class="col-md-7">
+            <canvas id="lineChart" width="500" height="300"></canvas>
+            <div class="key">
+              <li class="UMC"><span class="UMCsquare"></span><p>University Main Campus</p></li>
+              <li class="URC"><span class="URCsquare"></span><p>University Regional Campus</p></li>
+              <li class="CC"><span class="CCsquare"></span><p>Community College</p></li>
+            </div>
+          </div>
+
+
+    </div>
+
+    <div class="col-12 block3" id="map"></div>
+
+    <div class="col-12 block4" id="changeData">
+        <h2 id="datahead">Select a school on the map above to view the change in annual tuition and fees from 2008 to 2019</h2>
+    </div>
+
+    <div class="col-12 block5">
+      <h2 id="FAQ">FAQ</h2>
+      <p class="question">Where is this data from?</p>
+        <p class="answer">This data has been sourced from the Ohio Department of Higher Education’s <a href='https://www.ohiohighered.org/data-reports/tuition-financial-aid' target='_blank'>Data & Reports</a>. The full report for the tuition and fees data can be found <a href='https://www.ohiohighered.org/sites/ohiohighered.org/files/uploads/hei/data-updates/Tuition_fees_2018.pdf' target='_blank'>here</a>. The full report for the enrollment data can be found <a href='https://www.ohiohighered.org/data-reports/enrollment' target='_blank'>here</a>.</p>
+            <br>
+
+            <p class="question">Do the tuition prices used in the chart represent the price for a semester or a full year?</p>
+            <p class="answer">The figures used in the chart represent annualized prices for the full academic year.</p>
+            <br>
+
+            <p class="question">What charges are included in the tuition prices used?</p>
+            <p class="answer">The fees reported include the general fee as well as all other mandatory fees assessed to full-time students which meet each of the following: they are in fact mandatory, are not included in the general fee, and are charged each term. The latter may include facility fees, technology fees, parking fees, or other mandatory fees. Amounts are based on the tuition rate for continuing undergraduates. Institutions that have a Guranteed Tuition Programs may have different tuition rates for each cohort year.</p>
+              <br>
+
+    </div>
+
+    <div class="col-12 footer">
+      <a href="http://www.nicoledinan.com" target="_blank">© Nicole Dinan 2019</a>
+    </div>
+
+  </div>
+
+
+  <!-- Bootstrap -->
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js'></script>
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js'></script>
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/js/bootstrap.min.js'></script>
+
+  <!-- Mapbox -->
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/mapbox-gl/0.53.1/mapbox-gl.js'></script>
+  <script src='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v3.1.4/mapbox-gl-geocoder.min.js'>
+  </script>
+
+  <!-- Chart.JS -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.js"></script>
+
+  <!-- Data -->
+  <script src="data/TuitionData.js"></script>
+  <script src="data/tuitiondataLC.js"></script>
+  <script src="data/enrollment.js"></script>
+
+  <script>
+  var getChartData = function(array, key) {
+  				var dataArray = [];
+  				for (var i = 0; i < array.length; i++) {
+  					dataArray.push(array[i][key]);
+  				}
+  				console.log(dataArray);
+  				return dataArray;
+  			};
+
+  //line chart
+  var xLabels = getChartData(tuitionLC, 'Year');
+
+  var indexArray = function (array) {
+            var obj = {};
+            for (var i = 0; i < array.length; i++) {
+                array[i].id = 'id' + i;
+                obj[array[i].id] = array[i];
+            };
+            return obj;
+        };
+
+  var tuitionObj = indexArray(tuitionLC);
+
+
+  var ctx = $("#lineChart");
+
+
+  var chartOptions = {
+      responsive: true,
+      tooltips: {
+          mode: 'dataset',
+      },
+      legend: {
+          display: false,
+      },
+      animation: {
+          duration: 0
+      },
+      hover: {
+          animationDuration: 0
+      },
+      responsiveAnimationDuration: 0,
+      layout: {
+            padding: {
+              left: 10,
+              right: 25,
+              top: 25,
+              bottom: 10
+            }
+          },
+      scales: {
+          xAxes: [{
+            ticks:{
+              max: 11000
+            },
+          display: true,
+          scaleLabel: {
+              display: false,
+              labelString: 'Year'
+              }
+          }],
+          yAxes: [{
+              display: true,
+              scaleLabel: {
+                  display: false,
+                  labelString: 'Tuition Price'
+              }
+          }]
+      },
+      tooltips: {
+          backgroundColor: '#fff',
+          cornerRadius: 0,
+          bodyFontColor: '#333',
+          titleFontColor: '#333',
+          displayColors: false,
+          borderColor: '#999',
+          borderWidth: 0.5,
+          xPadding: 10,
+          xPadding: 8,
+          mode: 'nearest',
+          position: 'nearest',
+          callbacks: {
+              // title: function (tooltipItem, data) {
+              //     //console.log(tooltipItem, data);
+              //     // get school name
+              //     // var id = data.datasets[tooltipItem[0].datasetIndex].label;
+              //     var title = tooltipItem.datasetsLabel;
+              //     console.log(title);
+              //     return title;
+              // },
+              label: function (tooltipItem, data) {
+                  // console.log(tooltipItem, data);
+                  var xIndex = tooltipItem.index;
+                  var yIndex = tooltipItem.datasetIndex;
+                  // get year and enrollment
+                  var label = '$' + tooltipItem.yLabel;
+                  //console.log(label);
+                  return label;
+              }
+          }
+      },
+  };
+
+  var lineChart = new Chart(ctx, {
+      type: 'line',
+      data: {
+          labels: xLabels,
+          datasets: [
+            {
+                label: "Community College",
+                data: getChartData(tuitionLC, 'CCAvg'),
+                fill: false,
+                borderColor: '#FFAE73',
+                pointBackgroundColor: '#FFAE73',
+                lineTension: 0
+            },
+            {
+                label: "University Regional Campus",
+                data: getChartData(tuitionLC, 'URCAvg'),
+                fill: false,
+                borderColor: '#FF739D',
+                pointBackgroundColor: '#FF739D',
+                lineTension: 0
+
+            },{
+                label: "UMC",
+                data: getChartData(tuitionLC, 'UMCAvg'),
+                fill: false,
+                borderColor: '#7381FF',
+                pointBackgroundColor: '#7381FF',
+                lineTension: 0
+
+            }
+          ]
+          //chartData
+      },
+      options: chartOptions
+  });
+</script>
+
+<script>
+          var popup = new mapboxgl.Popup({
+              offset: 12
+          });
+
+            // mapbox access token (your token)
+
+            mapboxgl.accessToken = 'pk.eyJ1Ijoibmljb2xlZGluYW4iLCJhIjoiY2pud2NmajAzMXA1OTNwbnQxazNwY21iNyJ9.Jb0eQVtmRFyqaxiBCjjigg';
+
+            // map instance (your map style)
+            var map = new mapboxgl.Map({
+                container: 'map',
+                style: 'mapbox://styles/nicoledinan/cjv5oeus92lr21fqk143e8boz',
+                center: [-82.557,40.201],
+                zoom: 6.1,
+                minZoom: 6.1,
+                maxZoom: 11.25,
+                // dragRotate: false,
+                // pitchWithRotate: false,
+                // hash: true
+            });
+
+            map.on('load', function () {
+
+              map.addControl(new mapboxgl.NavigationControl(), 'top-left');
+
+                // when a 'click' event occurs on features in the 'ywca-assoc' layer
+                // open a popup at location of click, with HTML from feature's properties
+
+
+                map.on('click', 'tuitiondata', function (e) {
+                    // what is the e (event) parameter returning
+                    console.log(e.features[0].properties);
+
+                    var html = '<h2 id="datahead">' + e.features[0].properties.Campus + '</h2><p id="percentchange" class="' + e.features[0].properties.Sector + '">+ '+ e.features[0].properties.ChangeFY2008FY2019 + '</p><h3>Change in annual tuition and fees, 2008 – 2019</h3>';
+
+                    $('#changeData').html(html);
+                });
+
+
+                // change cursor to 'pointer' when mouse is over point
+                map.on('mouseenter', 'tuitiondata', function (e) {
+                    map.getCanvas().style.cursor = 'pointer';
+                    // popup
+                    popup = new mapboxgl.Popup({
+                            // closeButton: false,
+                            // closeOnClick: false,
+                            offset: 12,
+                            closeButton: false,
+                        })
+                        .setLngLat(e.lngLat)
+                        .setHTML('<h6>' + e.features[0].properties.Campus + '</h6>')
+                        .addTo(map);
+                });
+
+                // change it back to 'default' when mouse leaves point
+                map.on('mouseleave', 'tuitiondata', function () {
+                    map.getCanvas().style.cursor = '';
+                    popup.remove();
+                });
+
+                //diable scroll when outside of ohio on the map
+                map.on('mouseleave', 'ohio-akclxv', function (e) {
+                    map.scrollZoom.disable();
+                });
+
+                map.on('mouseenter', 'ohio-akclxv', function (e) {
+                    map.scrollZoom.enable();
+                });
+
+
+
+            });
+        </script>
+
+
+
+
+
+</body>
+
+
+</html>
